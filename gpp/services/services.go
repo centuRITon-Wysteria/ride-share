@@ -64,6 +64,9 @@ func NewNode(ctx *gin.Context) {
 	if err := chain.SaveBlockchain(&bc); err != nil {
 		return
 	}
+	if err := chain.SaveStateData(&sd); err != nil {
+		return
+	}
 	ctx.IndentedJSON(http.StatusOK, returnObj)
 
 	go func() {
@@ -95,12 +98,25 @@ func Sync(ctx *gin.Context) {
 		return
 	}
 	for i := diffLen; i > 0; i-- {
-		if err := bc.AddBlock(bch.BlockAt(bch.Len() - i)); err != nil {
+		b := bch.BlockAt(bch.Len() - i)
+		if err := cons.Exec(&bc, b); err != nil {
+			ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+			return
+		}
+		if err := stts.Exec(&sd, b); err != nil {
+			ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+			return
+		}
+		if err := bc.AddBlock(b); err != nil {
 			ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 			return
 		}
 	}
 	if err := chain.SaveBlockchain(&bc); err != nil {
+		ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+		return
+	}
+	if err := chain.SaveStateData(&sd); err != nil {
 		ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
 	}
@@ -164,6 +180,11 @@ func PublicInfo(ctx *gin.Context) {
 		return
 	}
 	if err := chain.SaveBlockchain(&bc); err != nil {
+		ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+		return
+	}
+	if err := chain.SaveStateData(&sd); err != nil {
+		ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
 	}
 
@@ -174,8 +195,6 @@ func PublicInfo(ctx *gin.Context) {
 			fmt.Println(err)
 		}
 	}()
-
-	// write states
 }
 
 func AnnounceTravel(ctx *gin.Context) {
@@ -212,6 +231,11 @@ func AnnounceTravel(ctx *gin.Context) {
 		return
 	}
 	if err := chain.SaveBlockchain(&bc); err != nil {
+		ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+		return
+	}
+	if err := chain.SaveStateData(&sd); err != nil {
+		ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
 	}
 
@@ -229,4 +253,5 @@ func RegisterClientRoutes(rg *gin.RouterGroup) {
 	clientRoute.POST("/newnode", NewNode)
 	clientRoute.POST("/sync", Sync)
 	clientRoute.POST("/publicinfo", PublicInfo)
+	clientRoute.POST("/announcetravel", PublicInfo)
 }

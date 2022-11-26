@@ -13,6 +13,7 @@ import (
 )
 
 var bcFile = "../blockchain/db/blockchain.bin"
+var sdFile = "../blockchain/db/statedata.bin"
 
 func LoadBlockchain() blockchain.Blockchain {
 	bchData, err := jsoner.ReadData(bcFile)
@@ -40,7 +41,7 @@ func SaveBlockchain(bc *blockchain.Blockchain) error {
 }
 
 func LoadStateData() states.StateData {
-	sdData, err := jsoner.ReadData("../blockchain/db/statedata.bin")
+	sdData, err := jsoner.ReadData(sdFile)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
@@ -51,6 +52,17 @@ func LoadStateData() states.StateData {
 		os.Exit(1)
 	}
 	return sd
+}
+
+func SaveStateData(sd *states.StateData) error {
+	save, err := sd.Save()
+	if err != nil {
+		return err
+	}
+	if err := jsoner.WriteData(sdFile, save); err != nil {
+		return err
+	}
+	return nil
 }
 
 func LoadConsensus() consensus.CAlgo {
