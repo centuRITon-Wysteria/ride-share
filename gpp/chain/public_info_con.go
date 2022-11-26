@@ -3,7 +3,6 @@ package chain
 import (
 	"blockchain/block"
 	"blockchain/consensus"
-	"fmt"
 )
 import "blockchain/blockchain"
 
@@ -46,7 +45,6 @@ func validatePI(_ *blockchain.Blockchain, b block.Block) bool {
 	if _, ok := data["others"].(string); !ok {
 		return false
 	}
-	fmt.Println("working")
 	return true
 
 }
