@@ -122,6 +122,7 @@ func PublicInfo(ctx *gin.Context) {
 		ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
 	}
+
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
@@ -136,11 +137,71 @@ func PublicInfo(ctx *gin.Context) {
 		ctx.IndentedJSON(resp.StatusCode, gin.H{"message": resp})
 		return
 	}
+	b := bc.MineBlock(
+		block.Data{"head": "PublicInfo"},
+		block.Data{
+			"public_key": NNRes.PublicKey,
+			"name":       responseObj.Name,
+			"driver":     responseObj.Driver,
+			"license":    responseObj.License,
+			"email":      responseObj.Email,
+			"occupation": responseObj.Occupation,
+			"hobbies":    responseObj.Hobbies,
+			"skills":     responseObj.Skills,
+			"interests":  responseObj.Interests,
+			"others":     responseObj.Others,
+		},
+	)
+	hash := b.Hash()
+	signature, err := wallet.SignMessage(NNRes.PrivateKey, NNRes.PublicKey, hash[:])
+	b.Header["signature"] = string(signature)
+	if err := cons.Exec(&bc, b); err != nil {
+		fmt.Println("hi", err)
+		ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+		return
+	}
+	if err := stts.Exec(&sd, b); err != nil {
+		ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+		return
+	}
+	if err := chain.SaveBlockchain(&bc); err != nil {
+		return
+	}
+
 	ctx.IndentedJSON(http.StatusOK, NNRes)
+
+	go func() {
+		if err := chain.Sync(&bc, &sd); err != nil {
+			fmt.Println(err)
+		}
+	}()
 
 	// write states
 }
 
+func AnnounceTravel(ctx *gin.Context) {
+	responseObj := new(AnnounceTravelPost)
+	if err := ctx.BindJSON(responseObj); err != nil {
+		ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+		return
+	}
+	b := bc.MineBlock(
+		block.Data{"head": "TravelAnnouncement"},
+		block.Data{"public_key": responseObj.PublicKey,
+			"from_lat": responseObj.FromLat,
+			"from_lon": responseObj.FromLon,
+			"to_lat":   responseObj.ToLat,
+			"to_lon":   responseObj.ToLon},
+	)
+	hash := b.Hash()
+	signature, err := wallet.SignMessage(responseObj.PrivateKey, responseObj.PublicKey, hash[:])
+	if err != nil {
+		ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+		return
+	}
+	b.Header["signature"] = string(signature)
+
+}
 func RegisterClientRoutes(rg *gin.RouterGroup) {
 	clientRoute := rg.Group("/service")
 	clientRoute.POST("/newnode", NewNode)

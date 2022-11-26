@@ -3,6 +3,7 @@ package chain
 import (
 	"blockchain/block"
 	"blockchain/consensus"
+	"fmt"
 )
 import "blockchain/blockchain"
 
@@ -21,10 +22,10 @@ func validatePI(_ *blockchain.Blockchain, b block.Block) bool {
 	if _, ok := data["name"].(string); !ok {
 		return false
 	}
-	if _, ok := data["driver"].(string); !ok {
+	if _, ok := data["driver"].(bool); !ok {
 		return false
 	}
-	if _, ok := data["lisense"].(string); !ok {
+	if _, ok := data["license"].(string); !ok {
 		return false
 	}
 	if _, ok := data["email"].(string); !ok {
@@ -45,7 +46,9 @@ func validatePI(_ *blockchain.Blockchain, b block.Block) bool {
 	if _, ok := data["others"].(string); !ok {
 		return false
 	}
+	fmt.Println("working")
 	return true
+
 }
 
 func runPI(bc *blockchain.Blockchain, b block.Block) error {
