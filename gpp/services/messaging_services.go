@@ -3,66 +3,63 @@ package services
 import (
 	"blockchain/block"
 	"blockchain/wallet"
+	"bytes"
+	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"gpp/chain"
+	"io"
 	"net/http"
 )
 
-func SendMessage(ctx *gin.Context) {
-	responseObj := new(Message)
+func MessageService(ctx *gin.Context) {
+	responseObj := new(MessagePost)
 	if err := ctx.BindJSON(&responseObj); err != nil {
 		ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
 	}
-	if responseObj.SendMessage == true {
-		publicAddress := responseObj.PublicAddress
-		toPublicAddress := responseObj.ToPublicAddress
+	if responseObj.Type == "send" {
+		toToPublicKey := responseObj.ToPublicKey
 		nodes, _ := sd["full_nodes"].(block.Data)
-		ipAddress, _ := nodes[toPublicAddress].(string)
-		message := responseObj.Message
-		b := bc.MineBlock(
-			block.Data{"head": "Message"},
-			block.Data{"public_key": publicAddress, "message": message},
-		)
-		hash := b.Hash()
-		signature, err := wallet.SignMessage(responseObj.PrivateKey, responseObj.PublicAddress, hash[:])
+		toIp, _ := nodes[toToPublicKey].(string)
+		url := "http://" + toIp + ":9090/baby_chain/service/messaging"
+		sign, err := wallet.SignMessage(responseObj.PrivateKeyOrSignature, responseObj.PublicKey, []byte(responseObj.Message))
 		if err != nil {
 			ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 			return
 		}
-		b.Header["signature"] = string(signature)
-		//if err := cons.Exec(&bc, b); err != nil {
-		//	ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
-		//	return
-		//}
-		if err := stts.Exec(&sd, b); err != nil {
-			ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
-			return
+		sendObj := MessagePost{
+			"receive",
+			responseObj.PublicKey,
+			string(sign),
+			"",
+			responseObj.Message,
 		}
-
-		if err := chain.SaveStateData(&sd); err != nil {
-			ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
-			return
-		}
-		dat, err := b.Save()
+		send, err := json.Marshal(sendObj)
 		if err != nil {
 			ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 			return
 		}
-		if err := chain.SendBC(ipAddress, dat); err != nil {
+		resp, err := http.Post(url, "application/json", bytes.NewBuffer(send))
+		if err != nil {
 			ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 			return
 		}
-		ctx.IndentedJSON(http.StatusOK, gin.H{"message": "message sent"})
+		get, err := io.ReadAll(resp.Body)
+		if err != nil {
+			ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+			return
+		}
+		ctx.IndentedJSON(resp.StatusCode, gin.H{"message": string(get)})
 		return
+	} else {
+		msg := responseObj.Message
+		wallet.VerifySignature(responseObj.PublicKey, []byte(msg), []byte(responseObj.PrivateKeyOrSignature))
+		fmt.Println(msg)
 	}
-	{
-		fmt.Println(responseObj.Message)
-	}
+	ctx.IndentedJSON(http.StatusOK, gin.H{"message": "ok"})
 }
 
 func RegisterMessagingRoutes(rg *gin.RouterGroup) {
-	clientRoute := rg.Group("/msgservice")
-	clientRoute.POST("/sendmsg", SendMessage)
+	clientRoute := rg.Group("/service")
+	clientRoute.POST("/messaging", MessageService)
 }

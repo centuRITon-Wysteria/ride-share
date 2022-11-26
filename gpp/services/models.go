@@ -35,11 +35,10 @@ type PublicInfoPost struct {
 	Others     string `json:"others"`
 }
 
-type Message struct {
-	SendMessage     bool   `json:"send_message"`
-	ReceiveMessage  bool   `json:"receive_message"`
-	PrivateKey      string `json:"private_key"`
-	PublicAddress   string `json:"public_key"`
-	ToPublicAddress string `json:"to_public_key"`
-	Message         string `json:"message"`
+type MessagePost struct {
+	Type                  string `json:"type"`
+	PublicKey             string `json:"public_key"`
+	PrivateKeyOrSignature string `json:"key"`
+	ToPublicKey           string `json:"to_public_key"`
+	Message               string `json:"message"`
 }

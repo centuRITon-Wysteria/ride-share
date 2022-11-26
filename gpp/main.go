@@ -1,6 +1,8 @@
 package main
 
 import (
+	"blockchain/block"
+	"blockchain/blockchain"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"gpp/chain"
@@ -12,7 +14,11 @@ func Init() {
 	sd := chain.LoadStateData()
 	stts := chain.LoadStates()
 	stts.Init(&sd)
+	bc := blockchain.New(block.Data{})
 	if err := chain.SaveStateData(&sd); err != nil {
+		fmt.Println(err)
+	}
+	if err := chain.SaveBlockchain(&bc); err != nil {
 		fmt.Println(err)
 	}
 }

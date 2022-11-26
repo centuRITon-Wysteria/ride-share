@@ -54,7 +54,7 @@ func SendMessage(ip string, data []byte) error {
 		"message_data": dataString,
 	})
 	responseBody := bytes.NewBuffer(postBody)
-	url := "https://" + ip + ":9090" + "/baby_chain/mssgservice/msgreceive"
+	url := "http://" + ip + ":9090" + "/baby_chain/msgservice/sendmsg"
 	resp, err := http.Post(url, "application/json", responseBody)
 	if err != nil {
 		return err
