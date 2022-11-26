@@ -253,5 +253,5 @@ func RegisterClientRoutes(rg *gin.RouterGroup) {
 	clientRoute.POST("/newnode", NewNode)
 	clientRoute.POST("/sync", Sync)
 	clientRoute.POST("/publicinfo", PublicInfo)
-	clientRoute.POST("/announcetravel", PublicInfo)
+	clientRoute.POST("/announcetravel", AnnounceTravel)
 }
