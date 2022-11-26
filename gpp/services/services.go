@@ -248,6 +248,10 @@ func AnnounceTravel(ctx *gin.Context) {
 	}()
 }
 
+func GetAnnounce(ctx *gin.Context) {
+
+}
+
 func RegisterClientRoutes(rg *gin.RouterGroup) {
 	clientRoute := rg.Group("/service")
 	clientRoute.POST("/newnode", NewNode)

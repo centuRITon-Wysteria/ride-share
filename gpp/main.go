@@ -1,15 +1,30 @@
 package main
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
+	"gpp/chain"
 	"gpp/services"
 	"log"
 )
 
+func Init() {
+	sd := chain.LoadStateData()
+	stts := chain.LoadStates()
+	stts.Init(&sd)
+	if err := chain.SaveStateData(&sd); err != nil {
+		fmt.Println(err)
+	}
+}
+
 func main() {
-	chainName := "baby_chain"
-	server := gin.Default()
-	basePath := server.Group("/" + chainName)
-	services.RegisterClientRoutes(basePath)
-	log.Fatalln(server.Run(":9090"))
+	if false {
+		Init()
+	} else {
+		chainName := "baby_chain"
+		server := gin.Default()
+		basePath := server.Group("/" + chainName)
+		services.RegisterClientRoutes(basePath)
+		log.Fatalln(server.Run(":9090"))
+	}
 }
