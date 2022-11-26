@@ -12,15 +12,11 @@
 
 #### repo on GitHub - [nPerlinNoise](https://github.com/centuRITon-Wysteria/ride-share)
 
-### A Decentralized 
+#### generated from our template - [baby-chain](https://github.com/centuRITon-Wysteria/baby-chain)
 
-- A _powerful_ and _fast_ API for _n-dimensional_ noise.
-- Easy hyper-parameters selection of _octaves_, _lacunarity_ and _persistence_
-  as well as complex and customizable hyper-parameters for n-dimension
-  _frequency_, _waveLength_, _warp_(interpolation) and _range_.
-- Includes various helpful tools for noise generation and for procedural generation tasks
-  such as customizable _Gradient_, _Color Gradients_, _Warp_ classes.
-- Implements custom _PRNG_ generator for n-dimension and can be easily tuned.
+### A Decentralized
+
+- 1
 
 **Details**:
 
@@ -230,11 +226,13 @@ go test gpp
 
 If you have questions, concerns, bug reports, etc.
 please file an [issue](https://github.com/centuRITon-Wysteria/baby-chain/issues) in this repository's Issue Tracker or
-open a [discussion](https://github.com/centuRITon-Wysteria/baby-chain/discussions) in this repository's Discussion section.
+open a [discussion](https://github.com/centuRITon-Wysteria/baby-chain/discussions) in this repository's Discussion
+section.
 
 ## Getting involved
 
 <a id="contribute"></a>
+
 - `Looking for Contributors for feature additions`
 - `Looking for Contributors for optimization`
 - `Looking for Contributors for unit testing`
@@ -259,16 +257,7 @@ and [CODE OF CONDUCT](CODE_OF_CONDUCT.md)
 
 ## Credits and references
 
-1. Inspired from [The Coding Train](https://www.youtube.com/channel/UCvjgXvBlbQiydffZU7m1_aw)
-   -> [perlin noise](https://thecodingtrain.com/challenges/24-perlin-noise-flow-field)
-2. hash function by [xxhash](https://github.com/Cyan4973/xxHash)
-   inspired the [rand3](src/nPerlinNoise/tools.py) algo
-   and ultimately helped for O(1) time complexity n-dimensional random generator [NPrng](src/nPerlinNoise/tools.py)
-3. [StackOverflow](https://stackoverflow.com/) for helping on various occasions throughout the development
-4. [vnoise](https://github.com/plottertools/vnoise) and [opensimplex](https://github.com/lmas/opensimplex)
-   for ideas for README.md
-5. docs derivative from [open-source-project-template](https://github.com/cfpb/open-source-project-template)
-6. packaging help from [realpython](https://realpython.com/pypi-publish-python-package/)
+1. 1
 
 **Maintainer**:
 
@@ -276,3 +265,18 @@ and [CODE OF CONDUCT](CODE_OF_CONDUCT.md)
 |:-----------------------------------------------------------------------------------------------------------------------------------:|
 |                                    **[Amith M](https://www.linkedin.com/in/amith-m-17088b246/)**                                    |
 | [![Instagram](https://img.shields.io/badge/Instagram-%23E4405F.svg?logo=Instagram&logoColor=white)](https://instagram.com/amithm3 ) |
+
+| <a href="https://github.com/hari-vishwanath"><img src=https://avatars.githubusercontent.com/u/108003385?v=4" height=250></a> |
+|:----------------------------------------------------------------------------------------------------------------------------:|
+|                        **[Hari Vishwanath](https://www.linkedin.com/in/hari-vishwanath-694aaa243/)**                         |
+
+**App and UI Devs**
+
+| <a href="https://github.com/ScaraTB"><img src="https://avatars.githubusercontent.com/u/66898000?v=4" height=250></a> |
+|:--------------------------------------------------------------------------------------------------------------------:|
+|                                                  **[Sumukha G]()**                                                   |
+
+| <a href="https://github.com/yashpapa6969"><img src="https://avatars.githubusercontent.com/u/108118711?v=4" height=250></a> |
+|:--------------------------------------------------------------------------------------------------------------------------:|
+|                            **[Yash Gupta](https://www.linkedin.com/in/yash-gupta-7070aa214/)**                             |
+
