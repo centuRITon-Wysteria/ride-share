@@ -31,7 +31,6 @@ func main() {
 		server := gin.Default()
 		basePath := server.Group("/" + chainName)
 		services.RegisterClientRoutes(basePath)
-		services.RegisterMessagingRoutes(basePath)
 		log.Fatalln(server.Run(":9090"))
 	}
 }

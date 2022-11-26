@@ -49,7 +49,7 @@ func MessageService(ctx *gin.Context) {
 			ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 			return
 		}
-		ctx.IndentedJSON(resp.StatusCode, gin.H{"message": string(get)})
+		ctx.IndentedJSON(resp.StatusCode, string(get))
 		return
 	} else {
 		msg := responseObj.Message
@@ -57,9 +57,4 @@ func MessageService(ctx *gin.Context) {
 		fmt.Println(msg)
 	}
 	ctx.IndentedJSON(http.StatusOK, gin.H{"message": "ok"})
-}
-
-func RegisterMessagingRoutes(rg *gin.RouterGroup) {
-	clientRoute := rg.Group("/service")
-	clientRoute.POST("/messaging", MessageService)
 }

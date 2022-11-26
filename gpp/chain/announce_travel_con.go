@@ -37,7 +37,7 @@ func validateAT(_ *blockchain.Blockchain, b block.Block) bool {
 
 }
 
-func runAT(bc *blockchain.Blockchain, b block.Block) error {
+func runAT(_ *blockchain.Blockchain, _ block.Block) error {
 	return nil
 }
 
