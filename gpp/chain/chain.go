@@ -54,7 +54,7 @@ func LoadStateData() states.StateData {
 }
 
 func LoadConsensus() consensus.CAlgo {
-	return consensus.New(CPublicInfo)
+	return consensus.New(CPublicInfo, CAnnounceTravel)
 }
 
 func LoadStates() states.States {
