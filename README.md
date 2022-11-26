@@ -8,7 +8,7 @@
 [![forthebadge](https://forthebadge.com/images/badges/powered-by-coffee.svg)](https://forthebadge.com)
 [![forthebadge](https://forthebadge.com/images/badges/not-a-bug-a-feature.svg)](https://forthebadge.com)
 
-# ride-shape [babe-chain]
+# ride-share[baby-chain]
 
 #### repo on GitHub - [nPerlinNoise](https://github.com/centuRITon-Wysteria/ride-share)
 
