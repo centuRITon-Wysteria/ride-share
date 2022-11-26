@@ -70,19 +70,145 @@ $ go mod tidy
 
 **Basic usage**
 
-1
 
 - ###### 1
 
-  > 1
+  > To run the blockchain run the main.go file in gpp - This initializes all the blockchain protocols required and starts the server
 
     ```go
+  package main
+    
+    import (
+    "blockchain/block"
+    "blockchain/blockchain"
+    "fmt"
+    "github.com/gin-gonic/gin"
+    "gpp/chain"
+    "gpp/services"
+    "log"
+    )
+    
+    func Init() {
+    sd := chain.LoadStateData()
+    stts := chain.LoadStates()
+    stts.Init(&sd)
+    bc := blockchain.New(block.Data{})
+    if err := chain.SaveStateData(&sd); err != nil {
+    fmt.Println(err)
+    }
+    if err := chain.SaveBlockchain(&bc); err != nil {
+    fmt.Println(err)
+    }
+    }
+    
+    func main() {
+    if false {
+    Init()
+    } else {
+    chainName := "baby_chain"
+    server := gin.Default()
+    basePath := server.Group("/" + chainName)
+    services.RegisterClientRoutes(basePath)
+    log.Fatalln(server.Run(":9090"))
+    }
+    }
     ```
 
 for detailed usage see [EXAMPLE](scripts/main.py)
 
 ## API
+**1. REGISTER NEW NODE : Registers a new node with the blockchain**
 
+**[URL] : ip_address_of_node:9090/baby_chain/service/newnode**
+
+Request Body
+```json
+    {
+      "ip_address": <ip address of node to be registered>
+    }
+```
+Response Body
+```json
+    {
+      "public_key": <128 characters long unique public key>,
+      "private_key": <64 characters long unique private key>
+    }
+```
+
+
+**2. REGISTER PROFILE : Registers user with given profile parameters**
+
+**[URL] : ip_address_of_node:9090/baby_chain/service/publicinfo**
+
+Request Body
+```json
+   {
+      "ip_address":<ip address of node to be registered>,
+      "name":<name of the registering user>,
+      "driver":<true if user is a driver,false otherwise>,
+      "license":<licence plate number of the user or driver>,
+      "email":<email id of the user>,
+      "occupation":<occupation of the user>,
+      "hobbies":<hobbies of the user>,
+      "skills":<skills of the user>,
+      "interests":<interests of the user>,
+      "others":<any other details that the user wants to share>
+   }
+```
+Response Body
+```json
+    {
+      "public_key": <128 characters long unique public key>,
+      "private_key": <64 characters long unique private key>
+    }
+```
+
+
+**3. ANNOUNCE TRAVEL : Announces ride request details to all the driver nodes**
+
+**[URL] : ip_address_of_node:9090/baby_chain/service/announcetravel**
+
+Request Body
+```json
+   {
+      "from_lat":<latitude of from location>,
+      "from_lon":<longitude of from location>,
+      "to_lat":<latitude of to location>,
+      "to_lon":<longitude of to location>,
+      "time":<proposed ride timings>,
+      "public_key": <public key of the user>,
+      "private_key": <private key of the user>
+   }
+```
+Response Body
+```json
+    {
+      "public_key": <128 characters long unique public key>,
+      "private_key": <64 characters long unique private key>
+    }
+```
+
+
+**4. MESSAGING : Sends message to the given public address**
+
+**[URL] : ip_address_of_node:9090/baby_chain/service/messaging**
+
+Request Body
+```json
+   {
+      "type":<send if the user wants to send,receive otherwise>,
+      "public_key":<public key of the sender>,
+      "key":<private key of the sender>,
+      "to_public_key":<public key of the receiver>,
+      "message":<message to be sent>
+   }
+```
+Response Body
+```json
+    {
+      "message": "ok"
+    }
+```
 ## How to test the software
 
 ```shell
