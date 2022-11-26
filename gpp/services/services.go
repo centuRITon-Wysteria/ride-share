@@ -137,6 +137,8 @@ func PublicInfo(ctx *gin.Context) {
 		return
 	}
 	ctx.IndentedJSON(http.StatusOK, NNRes)
+
+	// write states
 }
 
 func RegisterClientRoutes(rg *gin.RouterGroup) {

@@ -8,8 +8,8 @@ import "blockchain/block"
 import "blockchain/blockchain"
 
 type Consensus struct {
-	validate func(*blockchain.Blockchain, block.Block) bool
-	run      func(*blockchain.Blockchain, block.Block) error
+	Validate func(*blockchain.Blockchain, block.Block) bool
+	Run      func(*blockchain.Blockchain, block.Block) error
 }
 
 type CAlgo []Consensus
@@ -20,8 +20,8 @@ func (ca *CAlgo) Exec(bc *blockchain.Blockchain, b block.Block) error {
 		return err
 	}
 	for _, con := range *ca {
-		if con.validate(bc, b) {
-			if err := con.run(bc, b); err != nil {
+		if con.Validate(bc, b) {
+			if err := con.Run(bc, b); err != nil {
 				return err
 			}
 			atLeastOne = true
