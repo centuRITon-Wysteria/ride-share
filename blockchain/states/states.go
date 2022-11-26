@@ -24,16 +24,16 @@ func Load(save []byte) (StateData, error) {
 }
 
 type State struct {
-	initialize func(*StateData)
-	validate   func(*StateData, block.Block) bool
-	run        func(*StateData, block.Block) error
+	Initialize func(*StateData)
+	Validate   func(*StateData, block.Block) bool
+	Run        func(*StateData, block.Block) error
 }
 
 type States []State
 
 func (st *States) Init(sd *StateData) {
 	for _, state := range *st {
-		state.initialize(sd)
+		state.Initialize(sd)
 	}
 }
 
@@ -42,8 +42,8 @@ func (st *States) Exec(sd *StateData, b block.Block) error {
 		return err
 	}
 	for _, state := range *st {
-		if state.validate(sd, b) {
-			if err := state.run(sd, b); err != nil {
+		if state.Validate(sd, b) {
+			if err := state.Run(sd, b); err != nil {
 				return err
 			}
 		}

@@ -200,8 +200,8 @@ func AnnounceTravel(ctx *gin.Context) {
 		return
 	}
 	b.Header["signature"] = string(signature)
-
 }
+
 func RegisterClientRoutes(rg *gin.RouterGroup) {
 	clientRoute := rg.Group("/service")
 	clientRoute.POST("/newnode", NewNode)

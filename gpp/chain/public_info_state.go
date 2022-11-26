@@ -2,11 +2,14 @@ package chain
 
 import (
 	"blockchain/block"
-	"blockchain/consensus"
+	"blockchain/states"
 )
-import "blockchain/blockchain"
 
-func validatePI(_ *blockchain.Blockchain, b block.Block) bool {
+func initializePIS(sd *states.StateData) {
+	(*sd)["public_info"] = block.Data{}
+}
+
+func validatePIS(_ *states.StateData, b block.Block) bool {
 	header := b.Header
 	if header["head"] != "PublicInfo" {
 		return false
@@ -46,14 +49,14 @@ func validatePI(_ *blockchain.Blockchain, b block.Block) bool {
 		return false
 	}
 	return true
-
 }
 
-func runPI(bc *blockchain.Blockchain, b block.Block) error {
-	if err := bc.AddBlock(b); err != nil {
-		return err
-	}
+func runPIS(sd *states.StateData, b block.Block) error {
+	data := b.Data()
+	publicInfo, _ := (*sd)["public_info"].(block.Data)
+	publicKey, _ := data["public_key"].(string)
+	publicInfo[publicKey] = data
 	return nil
 }
 
-var CPublicInfo = consensus.Consensus{Validate: validatePI, Run: runPI}
+var SPublicInfo = states.State{Initialize: initializePIS, Validate: validatePIS, Run: runPIS}
