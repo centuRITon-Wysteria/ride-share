@@ -47,3 +47,25 @@ func SendBC(ip string, data []byte) error {
 	}
 	return nil
 }
+
+func SendMessage(ip string, data []byte) error {
+	dataString := string(data)
+	postBody, _ := json.Marshal(map[string]string{
+		"message_data": dataString,
+	})
+	responseBody := bytes.NewBuffer(postBody)
+	url := "https://" + ip + ":9090" + "/baby_chain/mssgservice/msgreceive"
+	resp, err := http.Post(url, "application/json", responseBody)
+	if err != nil {
+		return err
+	}
+	if resp.StatusCode != http.StatusOK {
+		body, err := io.ReadAll(resp.Body)
+		if err != nil {
+			return err
+		}
+		sb := string(body)
+		return errors.New(sb)
+	}
+	return nil
+}

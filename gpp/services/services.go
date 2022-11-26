@@ -62,9 +62,11 @@ func NewNode(ctx *gin.Context) {
 	}
 
 	if err := chain.SaveBlockchain(&bc); err != nil {
+		ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
 	}
 	if err := chain.SaveStateData(&sd); err != nil {
+		ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
 	}
 	ctx.IndentedJSON(http.StatusOK, returnObj)
@@ -134,6 +136,7 @@ func PublicInfo(ctx *gin.Context) {
 	responseBody := bytes.NewBuffer(postBody)
 	url := "http://localhost:9090" + "/baby_chain/service/newnode"
 	resp, err := http.Post(url, "application/json", responseBody)
+	fmt.Println("hi")
 	if err != nil {
 		ctx.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return

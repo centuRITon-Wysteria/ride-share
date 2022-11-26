@@ -21,7 +21,7 @@ func validateAT(_ *blockchain.Blockchain, b block.Block) bool {
 	if _, ok := data["from_lat"].(string); !ok {
 		return false
 	}
-	if _, ok := data["from_lon"].(bool); !ok {
+	if _, ok := data["from_lon"].(string); !ok {
 		return false
 	}
 	if _, ok := data["to_lat"].(string); !ok {
@@ -38,9 +38,6 @@ func validateAT(_ *blockchain.Blockchain, b block.Block) bool {
 }
 
 func runAT(bc *blockchain.Blockchain, b block.Block) error {
-	if err := bc.AddBlock(b); err != nil {
-		return err
-	}
 	return nil
 }
 
