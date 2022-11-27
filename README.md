@@ -248,10 +248,6 @@ and [CODE OF CONDUCT](CODE_OF_CONDUCT.md)
 
 ----
 
-## Credits and references
-
-1. 1
-
 **Maintainer**:
 
 |        <a href="https://github.com/Amith225"><img src="https://avatars.githubusercontent.com/u/75326634?v=4" height=250></a>        |
