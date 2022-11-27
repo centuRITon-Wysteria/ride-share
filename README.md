@@ -10,7 +10,7 @@
 
 # ride-share[baby-chain]
 
-#### repo on GitHub - [nPerlinNoise](https://github.com/centuRITon-Wysteria/ride-share)
+#### repo on GitHub - [Centuriton-Wysteria-Rideshare](https://github.com/centuRITon-Wysteria/ride-share)
 
 #### generated from our template - [baby-chain](https://github.com/centuRITon-Wysteria/baby-chain)
 
