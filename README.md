@@ -10,13 +10,14 @@
 
 # ride-share[baby-chain]
 
-#### repo on GitHub - [Centuriton-Wysteria-Rideshare](https://github.com/centuRITon-Wysteria/ride-share)
+#### repo on GitHub - [ride-share](https://github.com/centuRITon-Wysteria/ride-share)
 
 #### generated from our template - [baby-chain](https://github.com/centuRITon-Wysteria/baby-chain)
 
-### A Decentralized
+### A Decentralized ride sharing service
 
-- 1
+- Build from scratch
+- Consensus and state abstraction, easily create consensus and state management
 
 **Details**:
 
