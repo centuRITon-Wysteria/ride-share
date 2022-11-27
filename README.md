@@ -255,7 +255,7 @@ and [CODE OF CONDUCT](CODE_OF_CONDUCT.md)
 |                                    **[Amith M](https://www.linkedin.com/in/amith-m-17088b246/)**                                    |
 | [![Instagram](https://img.shields.io/badge/Instagram-%23E4405F.svg?logo=Instagram&logoColor=white)](https://instagram.com/amithm3 ) |
 
-| <a href="https://github.com/hari-vishwanath"><img src=https://avatars.githubusercontent.com/u/108003385?v=4" height=250></a> |
+| <a href="https://github.com/hari-vishwanath"><img src="https://avatars.githubusercontent.com/u/108003385?v=4" height=250></a> |
 |:----------------------------------------------------------------------------------------------------------------------------:|
 |                        **[Hari Vishwanath](https://www.linkedin.com/in/hari-vishwanath-694aaa243/)**                         |
 
