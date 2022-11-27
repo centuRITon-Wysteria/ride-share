@@ -60,16 +60,8 @@ $ go mod tidy
 
 ## Usage
 
-**Setup**
-
-```go
-```
-
-**Basic usage**
-
-
-- ###### 1
-
+- **Basic usage**
+- 
   > To run the blockchain run the main.go file in gpp - This initializes all the blockchain protocols required and starts the server
 
     ```go
